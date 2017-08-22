@@ -44,7 +44,7 @@ plot = ggplot(data = data1, aes(x=Treatment,y=Latency,color=Genotype)) +
   scale_color_manual(values=mycols)
 
 agg.data = aggregate(Latency~Treatment + Genotype,data1,"mean")
-agg.data$SE = aggregate(Latency~Treatment + Genotype,data1,function(x){sd(x)/length(x)})$Latency
+agg.data$SE = aggregate(Latency~Treatment + Genotype,data1,function(x){sd(x)/sqrt(length(x))})$Latency
 
 plot = ggplot(data = data1, aes(x=Treatment,y=Latency,color=Genotype,fill=Genotype)) + 
   geom_bar(data=agg.data,stat="identity",position=position_dodge(width=1),aes(x=Treatment,y=Latency,color=Genotype),width=.75) +
@@ -110,7 +110,7 @@ ggplot(long.d.m,aes(x=variable,y=value,color=Treatment)) + geom_point() + geom_l
 ggplot(long.d.m,aes(x=variable,y=value,color=Treatment)) + stat_smooth(aes(group=Treatment,fill=Treatment),alpha=.5) + scale_color_manual(values=mycols)+scale_fill_manual(values=mycols)+mytheme
 
 agg.data = aggregate(value~variable+Treatment,long.d.m,"mean")
-agg.data$SE = aggregate(value~variable+Treatment,long.d.m,function(x){sd(x)/length(x)})$value
+agg.data$SE = aggregate(value~variable+Treatment,long.d.m,function(x){sd(x)/sqrt(length(x))})$value
 
 tg = ggplot(agg.data,aes(x=variable,y=value,color=Treatment)) + geom_point() + geom_line(aes(group=Treatment)) + scale_color_manual(values=mycols)+
   geom_errorbar(aes(ymin=value-SE,ymax=value+SE),width=.15) + ylab(expression(Tumor~Volume~(mm^3))) + xlab("Days Since TX Start") +
